@@ -9,7 +9,10 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class MixedAuthGuard extends AuthGuard('jwt') implements CanActivate {
+export class MixedAuthGuard
+  extends AuthGuard('firebase')
+  implements CanActivate
+{
   private logger = new Logger('Security');
 
   getRequest(context: ExecutionContext) {

@@ -10,7 +10,8 @@ import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { AuthUserRole } from '../../../modules/auth/types/auth-user.roles';
 
-export const RoleAuth = (...roles: AuthUserRole[]) => SetMetadata('allowedRoles', roles);
+export const RoleAuth = (...roles: AuthUserRole[]) =>
+  SetMetadata('allowedRoles', roles);
 @Injectable()
 export class RoleAuthGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
