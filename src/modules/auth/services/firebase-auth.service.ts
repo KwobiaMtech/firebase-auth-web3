@@ -15,6 +15,7 @@ import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 import * as referralCodes from 'referral-codes';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc, getFirestore } from 'firebase/firestore';
 
 @Injectable()
 export class FirebaseAuthService {
@@ -41,7 +42,7 @@ export class FirebaseAuthService {
   }
 
   async createUser(input: RegisterDto): Promise<RegisterOutputDto> {
-    const firebaseUser = await this.createFirebaseUser(
+    const firebaseUser = await this.createFirebaseAuthUser(
       input.email,
       input.password,
     );
@@ -53,10 +54,27 @@ export class FirebaseAuthService {
         : input.dateOfBirth;
     newUser.idNumber = Number(this.generateCode(6));
     console.log('newUser', newUser);
+    //return await this.createUserData(newUser);
     return await this.users.create(newUser);
   }
 
-  async createFirebaseUser(
+  async createUserData(user: User): Promise<User | any> {
+    const db = getFirestore(this.firebaseClient);
+    try {
+      const docRef = await addDoc(collection(db, 'User'), user);
+      console.log('Document written with ID: ', docRef.id);
+      return docRef;
+    } catch (error) {
+      throw new HttpException(error, 500);
+    }
+
+    // const db = getFirestore(this.firebaseClient);
+    // const docRef = db.collection('users').doc(user.id);
+    // await docRef.set(user);
+    // return user;
+  }
+
+  async createFirebaseAuthUser(
     email: string,
     password: string,
   ): Promise<UserRecord | any> {
