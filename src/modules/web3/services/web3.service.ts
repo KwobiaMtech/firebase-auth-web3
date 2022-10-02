@@ -15,9 +15,9 @@ export class Web3Service implements OnModuleInit {
     );
   }
   async onModuleInit() {
-    // const transaction = await this.initiateTransactionObject();
-    // const receipt = await this.getTransactionReceipt(transaction);
-    // console.log('receipt', receipt);
+    const transaction = await this.initiateTransactionObject();
+    const receipt = await this.getTransactionReceipt(transaction);
+    console.log('receipt', receipt);
   }
 
   get web3(): any {
