@@ -8,6 +8,7 @@ import { globalConfig } from './config';
 import { AuthModule } from './modules/auth/auth.module';
 import { MainModule } from './modules/main/main.module';
 import { FireormModule } from 'nestjs-fireorm';
+import { Web3Module } from './modules/web3/web3.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FireormModule } from 'nestjs-fireorm';
     }),
     AuthModule,
     MainModule,
+    Web3Module,
   ],
   controllers: [AppController],
   providers: [AppService],

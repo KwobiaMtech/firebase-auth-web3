@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MixedAuthGuard } from './guards/mixed-auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
-import { globalConfig } from 'src/config';
+import { globalConfig } from '../../../src/config';
 
 import { FirebaseAuthService } from './services/firebase-auth.service';
 import { UserAuthController } from './controllers/user-auth.controller';
