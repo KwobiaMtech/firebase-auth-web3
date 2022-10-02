@@ -1,5 +1,6 @@
 import { TestClient } from './utils/test-client';
 import { RegisterDto } from '../src/modules/auth/dto/auth.dto';
+import { FirebaseAuthService } from '../src/modules/auth/services/firebase-auth.service';
 
 describe('UserAuthController (e2e)', () => {
   let testClient: TestClient;
@@ -15,7 +16,7 @@ describe('UserAuthController (e2e)', () => {
 
   it('/ (POST) Register User Test', async () => {
     const userData: RegisterDto = {
-      email: 'patrick6@gmail.com',
+      email: 'patrick105@gmail.com',
       password: 'KoobiAdom7New',
       dateOfBirth: '1990-01-01',
     };
@@ -25,6 +26,13 @@ describe('UserAuthController (e2e)', () => {
     expect(registerUser.id).toBeDefined();
     expect(registerUser.idNumber).toBeDefined();
     expect(registerUser.dateOfBirth).toBeDefined();
+
+    // clean up
+    const srv = await testClient.app.get(FirebaseAuthService);
+    const getUserByEmail = await srv.getUserByEmail(userData.email);
+    expect(getUserByEmail.email).toBe(userData.email);
+    expect(getUserByEmail.uid).toBeDefined();
+    await srv.deleteUser(getUserByEmail.uid);
   });
 
   it('/ (POST) User Login Test', async () => {

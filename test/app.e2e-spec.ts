@@ -3,12 +3,12 @@ import { TestClient } from './utils/test-client';
 describe('AppController (e2e)', () => {
   let testClient: TestClient;
 
-  before(async () => {
+  beforeAll(async () => {
     testClient = new TestClient();
     await testClient.init();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await testClient.close();
   });
 

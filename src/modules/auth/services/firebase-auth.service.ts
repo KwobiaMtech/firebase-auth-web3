@@ -53,8 +53,6 @@ export class FirebaseAuthService {
         ? new Date(input.dateOfBirth)
         : input.dateOfBirth;
     newUser.idNumber = Number(this.generateCode(6));
-    console.log('newUser', newUser);
-    //return await this.createUserData(newUser);
     return await this.users.create(newUser);
   }
 
@@ -62,16 +60,10 @@ export class FirebaseAuthService {
     const db = getFirestore(this.firebaseClient);
     try {
       const docRef = await addDoc(collection(db, 'User'), user);
-      console.log('Document written with ID: ', docRef.id);
       return docRef;
     } catch (error) {
       throw new HttpException(error, 500);
     }
-
-    // const db = getFirestore(this.firebaseClient);
-    // const docRef = db.collection('users').doc(user.id);
-    // await docRef.set(user);
-    // return user;
   }
 
   async createFirebaseAuthUser(
@@ -106,6 +98,14 @@ export class FirebaseAuthService {
       accessToken: await login.user.getIdToken(),
       refreshToken: login.user.refreshToken,
     };
+  }
+
+  async deleteUser(uid: string) {
+    return await admin.auth().deleteUser(uid);
+  }
+
+  async getUserByEmail(email: string): Promise<User | any> {
+    return await admin.auth().getUserByEmail(email);
   }
 
   generateCode(length: number): string {
